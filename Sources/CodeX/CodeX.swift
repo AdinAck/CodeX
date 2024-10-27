@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 18.0, *)
-struct Colors {
+public struct CodeColors {
     static let background: Color = .init(red: 0x1e / 0xff, green: 0x1e / 0xff, blue: 0x1e / 0xff)
     static let keyword: Color = .init(red: 0xfb / 0xff, green: 0x48 / 0xff, blue: 0x33 / 0xff)
     static let typeName: Color = .init(red: 0xfa / 0xff, green: 0xbd / 0xff, blue: 0x2e / 0xff)
@@ -106,7 +106,7 @@ public struct Comment: View {
             Space()
             Text(text)
         }
-        .foregroundStyle(Colors.comment)
+        .foregroundStyle(CodeColors.comment)
     }
 }
 
@@ -158,7 +158,7 @@ public struct Keyword: View {
     
     public var body: some View {
         Text(text)
-            .foregroundStyle(Colors.keyword)
+            .foregroundStyle(CodeColors.keyword)
     }
 }
 
@@ -172,7 +172,7 @@ public struct TypeName: View {
     
     public var body: some View {
         Text(text)
-            .foregroundStyle(Colors.typeName)
+            .foregroundStyle(CodeColors.typeName)
     }
 }
 
@@ -187,7 +187,7 @@ public struct Property: View {
     public var body: some View {
         Horizontal {
             Text(text)
-                .foregroundStyle(Colors.property)
+                .foregroundStyle(CodeColors.property)
             Token(":")
             Space()
         }
@@ -204,7 +204,7 @@ public struct Function: View {
     
     public var body: some View {
         Text(name)
-            .foregroundStyle(Colors.function)
+            .foregroundStyle(CodeColors.function)
     }
 }
 
@@ -218,7 +218,7 @@ public struct Operator: View {
     
     public var body: some View {
         Text(token)
-            .foregroundStyle(Colors.op)
+            .foregroundStyle(CodeColors.op)
     }
 }
 
@@ -238,7 +238,7 @@ public struct Variable: View {
     
     public var body: some View {
         Text(name)
-            .foregroundStyle(style == .special ? Colors.variableSpecial : Colors.variable)
+            .foregroundStyle(style == .special ? CodeColors.variableSpecial : CodeColors.variable)
     }
 }
 
@@ -484,5 +484,5 @@ struct CodeView: View {
 #Preview {
     CodeView(t: 4, scale: 0.2)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Colors.background)
+        .background(CodeColors.background)
 }
