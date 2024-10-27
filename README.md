@@ -2,7 +2,7 @@
 
 Expression defined code views for animation.
 
-![](https://cdn.adinack.dev/CodeX/demo.mp4)
+![](https://github.com/user-attachments/assets/289cb759-ceec-4137-969a-6ca075896e8d)
 
 ## Usage
 
