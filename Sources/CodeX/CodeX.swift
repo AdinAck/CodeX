@@ -60,7 +60,7 @@ struct Vertical<Content: View>: View {
 public struct Token: View {
     let token: String
     
-    init(_ token: String) {
+    public init(_ token: String) {
         self.token = token
     }
     
@@ -85,12 +85,7 @@ public struct Comment: View {
     let text: String
     let style: CommentStyle
     
-    init(_ text: String) {
-        self.text = text
-        self.style = .inline
-    }
-    
-    init(_ text: String, style: CommentStyle) {
+    public init(_ text: String, style: CommentStyle = .inline) {
         self.text = text
         self.style = style
     }
@@ -121,7 +116,7 @@ public struct Line<Content: View>: View {
     @ViewBuilder let content: () -> Content
     @ViewBuilder let comment: String?
     
-    init(_ end: LineEnds? = nil, comment: String? = nil, @ViewBuilder content: @escaping () -> Content) {
+    public init(_ end: LineEnds? = nil, comment: String? = nil, @ViewBuilder content: @escaping () -> Content) {
         self.end = end
         self.content = content
         self.comment = comment
@@ -152,7 +147,7 @@ public struct Line<Content: View>: View {
 public struct Keyword: View {
     let text: String
     
-    init(_ text: String) {
+    public init(_ text: String) {
         self.text = text
     }
     
@@ -166,7 +161,7 @@ public struct Keyword: View {
 public struct TypeName: View {
     let text: String
     
-    init(_ text: String) {
+    public init(_ text: String) {
         self.text = text
     }
     
@@ -180,7 +175,7 @@ public struct TypeName: View {
 public struct Property: View {
     let text: String
     
-    init(_ text: String) {
+    public init(_ text: String) {
         self.text = text
     }
     
@@ -198,7 +193,7 @@ public struct Property: View {
 public struct Function: View {
     let name: String
     
-    init(_ name: String) {
+    public init(_ name: String) {
         self.name = name
     }
     
@@ -212,7 +207,7 @@ public struct Function: View {
 public struct Operator: View {
     let token: String
     
-    init(_ token: String) {
+    public init(_ token: String) {
         self.token = token
     }
     
@@ -231,7 +226,7 @@ public struct Variable: View {
     let name: String
     let style: VariableStyle
     
-    init(_ name: String, style: VariableStyle = .normal) {
+    public init(_ name: String, style: VariableStyle = .normal) {
         self.name = name
         self.style = style
     }
@@ -247,7 +242,7 @@ public struct Parameter<Content: View>: View {
     let name: String
     @ViewBuilder let content: () -> Content
     
-    init(_ name: String, @ViewBuilder content: @escaping () -> Content) {
+    public init(_ name: String, @ViewBuilder content: @escaping () -> Content) {
         self.name = name
         self.content = content
     }
@@ -277,7 +272,7 @@ public struct Block<Content: View, Before: View, After: View>: View {
     @ViewBuilder let before: () -> Before
     @ViewBuilder let after: () -> After
     
-    init(_ style: [BlockStyle]? = nil, _ type: BlockType, @ViewBuilder content: @escaping () -> Content) where Before == EmptyView, After == EmptyView {
+    public init(_ style: [BlockStyle]? = nil, _ type: BlockType, @ViewBuilder content: @escaping () -> Content) where Before == EmptyView, After == EmptyView {
         self.style = style
         self.type = type
         self.content = content
@@ -285,7 +280,7 @@ public struct Block<Content: View, Before: View, After: View>: View {
         self.after = { EmptyView() }
     }
     
-    init(_ style: [BlockStyle]? = nil, @ViewBuilder content: @escaping () -> Content, @ViewBuilder before: @escaping () -> Before = { EmptyView() }, @ViewBuilder after: @escaping () -> After = { EmptyView() }) {
+    public init(_ style: [BlockStyle]? = nil, @ViewBuilder content: @escaping () -> Content, @ViewBuilder before: @escaping () -> Before = { EmptyView() }, @ViewBuilder after: @escaping () -> After = { EmptyView() }) {
         self.style = style
         self.type = .multiline
         self.content = content
