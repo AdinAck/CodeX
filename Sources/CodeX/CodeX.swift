@@ -18,6 +18,10 @@ public struct CodeColors {
 public struct Code<Content: View>: View {
     @ViewBuilder let content: () -> Content
     
+    public init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+    
     public var body: some View {
         Vertical {
             content()
