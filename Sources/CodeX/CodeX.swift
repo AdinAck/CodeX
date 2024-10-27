@@ -71,6 +71,8 @@ public struct Token: View {
 
 @available(iOS 18.0, *)
 public struct Space: View {
+    public init() { }
+    
     public var body: some View {
         Text(" ")
     }
