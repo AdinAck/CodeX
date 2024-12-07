@@ -2,26 +2,35 @@ import SwiftUI
 
 @available(iOS 18.0, *)
 public struct CodeColors {
-    public static let background: Color = .init(red: 0x1e / 0xff, green: 0x1e / 0xff, blue: 0x1e / 0xff)
-    public static let keyword: Color = .init(red: 0xfb / 0xff, green: 0x48 / 0xff, blue: 0x33 / 0xff)
-    public static let typeName: Color = .init(red: 0xfa / 0xff, green: 0xbd / 0xff, blue: 0x2e / 0xff)
-    public static let attribute: Color = .init(red: 0x83 / 0xff, green: 0xa5 / 0xff, blue: 0x98 / 0xff)
-    public static let property: Color = .init(red: 0xeb / 0xff, green: 0xdb / 0xff, blue: 0xa2 / 0xff)
-    public static let function: Color = .init(red: 0xfb / 0xff, green: 0xcb / 0xff, blue: 0x00 / 0xff)
+    public static let background: Color = .init(
+        red: 0x1e / 0xff, green: 0x1e / 0xff, blue: 0x1e / 0xff)
+    public static let keyword: Color = .init(
+        red: 0xfb / 0xff, green: 0x48 / 0xff, blue: 0x33 / 0xff)
+    public static let typeName: Color = .init(
+        red: 0xfa / 0xff, green: 0xbd / 0xff, blue: 0x2e / 0xff)
+    public static let attribute: Color = .init(
+        red: 0x80 / 0xff, green: 0x80 / 0xff, blue: 0x80 / 0xff)
+    public static let property: Color = .init(
+        red: 0xeb / 0xff, green: 0xdb / 0xff, blue: 0xa2 / 0xff)
+    public static let function: Color = .init(
+        red: 0xfb / 0xff, green: 0xcb / 0xff, blue: 0x00 / 0xff)
     public static let op: Color = .init(red: 0x8e / 0xff, green: 0x8e / 0xff, blue: 0x8e / 0xff)
-    public static let variable: Color = .init(red: 0xd0 / 0xff, green: 0xd0 / 0xff, blue: 0xd0 / 0xff)
-    public static let variableSpecial: Color = .init(red: 0x83 / 0xff, green: 0xa5 / 0xff, blue: 0x98 / 0xff)
-    public static let comment: Color = .init(red: 0x80 / 0xff, green: 0x80 / 0xff, blue: 0x80 / 0xff)
+    public static let variable: Color = .init(
+        red: 0xd0 / 0xff, green: 0xd0 / 0xff, blue: 0xd0 / 0xff)
+    public static let variableSpecial: Color = .init(
+        red: 0x83 / 0xff, green: 0xa5 / 0xff, blue: 0x98 / 0xff)
+    public static let comment: Color = .init(
+        red: 0x80 / 0xff, green: 0x80 / 0xff, blue: 0x80 / 0xff)
 }
 
 @available(iOS 18.0, *)
 public struct Code<Content: View>: View {
     @ViewBuilder let content: () -> Content
-    
+
     public init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
-    
+
     public var body: some View {
         Vertical {
             content()
@@ -33,11 +42,11 @@ public struct Code<Content: View>: View {
 @available(iOS 18.0, *)
 struct Horizontal<Content: View>: View {
     @ViewBuilder let content: () -> Content
-    
+
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
-    
+
     var body: some View {
         HStack(spacing: 0) {
             content()
@@ -48,11 +57,11 @@ struct Horizontal<Content: View>: View {
 @available(iOS 18.0, *)
 struct Vertical<Content: View>: View {
     @ViewBuilder let content: () -> Content
-    
+
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             content()
@@ -63,11 +72,11 @@ struct Vertical<Content: View>: View {
 @available(iOS 18.0, *)
 public struct Token: View {
     let token: String
-    
+
     public init(_ token: String) {
         self.token = token
     }
-    
+
     public var body: some View {
         Text(token)
     }
@@ -75,8 +84,8 @@ public struct Token: View {
 
 @available(iOS 18.0, *)
 public struct Space: View {
-    public init() { }
-    
+    public init() {}
+
     public var body: some View {
         Text(" ")
     }
@@ -90,12 +99,12 @@ public enum CommentStyle {
 public struct Comment: View {
     let text: String
     let style: CommentStyle
-    
+
     public init(_ text: String, style: CommentStyle = .inline) {
         self.text = text
         self.style = style
     }
-    
+
     public var body: some View {
         HStack(spacing: 0) {
             switch style {
@@ -118,20 +127,23 @@ public enum LineEnds {
 @available(iOS 18.0, *)
 public struct Line<Content: View>: View {
     let end: LineEnds?
-    
+
     @ViewBuilder let content: () -> Content
     @ViewBuilder let comment: String?
-    
-    public init(_ end: LineEnds? = nil, comment: String? = nil, @ViewBuilder content: @escaping () -> Content) {
+
+    public init(
+        _ end: LineEnds? = nil, comment: String? = nil,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.end = end
         self.content = content
         self.comment = comment
     }
-    
+
     public var body: some View {
         Horizontal {
             content()
-            
+
             if let end {
                 switch end {
                 case .semicolon:
@@ -139,7 +151,7 @@ public struct Line<Content: View>: View {
                 case .comma:
                     Token(",")
                 }
-                
+
                 if let comment {
                     Space()
                     Comment(comment)
@@ -152,11 +164,11 @@ public struct Line<Content: View>: View {
 @available(iOS 18.0, *)
 public struct Keyword: View {
     let text: String
-    
+
     public init(_ text: String) {
         self.text = text
     }
-    
+
     public var body: some View {
         Text(text)
             .foregroundStyle(CodeColors.keyword)
@@ -166,11 +178,11 @@ public struct Keyword: View {
 @available(iOS 18.0, *)
 public struct TypeName: View {
     let text: String
-    
+
     public init(_ text: String) {
         self.text = text
     }
-    
+
     public var body: some View {
         Text(text)
             .foregroundStyle(CodeColors.typeName)
@@ -180,11 +192,11 @@ public struct TypeName: View {
 @available(iOS 18.0, *)
 public struct Property: View {
     let text: String
-    
+
     public init(_ text: String) {
         self.text = text
     }
-    
+
     public var body: some View {
         Horizontal {
             Text(text)
@@ -198,11 +210,11 @@ public struct Property: View {
 @available(iOS 18.0, *)
 public struct Function: View {
     let name: String
-    
+
     public init(_ name: String) {
         self.name = name
     }
-    
+
     public var body: some View {
         Text(name)
             .foregroundStyle(CodeColors.function)
@@ -212,11 +224,11 @@ public struct Function: View {
 @available(iOS 18.0, *)
 public struct Operator: View {
     let token: String
-    
+
     public init(_ token: String) {
         self.token = token
     }
-    
+
     public var body: some View {
         Text(token)
             .foregroundStyle(CodeColors.op)
@@ -231,12 +243,12 @@ public enum VariableStyle {
 public struct Variable: View {
     let name: String
     let style: VariableStyle
-    
+
     public init(_ name: String, style: VariableStyle = .normal) {
         self.name = name
         self.style = style
     }
-    
+
     public var body: some View {
         Text(name)
             .foregroundStyle(style == .special ? CodeColors.variableSpecial : CodeColors.variable)
@@ -247,12 +259,12 @@ public struct Variable: View {
 public struct Parameter<Content: View>: View {
     let name: String
     @ViewBuilder let content: () -> Content
-    
+
     public init(_ name: String, @ViewBuilder content: @escaping () -> Content) {
         self.name = name
         self.content = content
     }
-    
+
     public var body: some View {
         Variable(name)
         Token(":")
@@ -273,27 +285,34 @@ public enum BlockType {
 public struct Block<Content: View, Before: View, After: View>: View {
     let style: [BlockStyle]?
     let type: BlockType
-    
+
     @ViewBuilder let content: () -> Content
     @ViewBuilder let before: () -> Before
     @ViewBuilder let after: () -> After
-    
-    public init(_ style: [BlockStyle]? = nil, _ type: BlockType, @ViewBuilder content: @escaping () -> Content) where Before == EmptyView, After == EmptyView {
+
+    public init(
+        _ style: [BlockStyle]? = nil, _ type: BlockType,
+        @ViewBuilder content: @escaping () -> Content
+    ) where Before == EmptyView, After == EmptyView {
         self.style = style
         self.type = type
         self.content = content
         self.before = { EmptyView() }
         self.after = { EmptyView() }
     }
-    
-    public init(_ style: [BlockStyle]? = nil, @ViewBuilder content: @escaping () -> Content, @ViewBuilder before: @escaping () -> Before = { EmptyView() }, @ViewBuilder after: @escaping () -> After = { EmptyView() }) {
+
+    public init(
+        _ style: [BlockStyle]? = nil, @ViewBuilder content: @escaping () -> Content,
+        @ViewBuilder before: @escaping () -> Before = { EmptyView() },
+        @ViewBuilder after: @escaping () -> After = { EmptyView() }
+    ) {
         self.style = style
         self.type = .multiline
         self.content = content
         self.before = before
         self.after = after
     }
-    
+
     var start: some View {
         Group {
             if let style {
@@ -312,7 +331,7 @@ public struct Block<Content: View, Before: View, After: View>: View {
             }
         }
     }
-    
+
     var stop: some View {
         Group {
             if let style {
@@ -331,7 +350,7 @@ public struct Block<Content: View, Before: View, After: View>: View {
             }
         }
     }
-    
+
     @ViewBuilder var view: some View {
         Horizontal {
             before()
@@ -355,7 +374,7 @@ public struct Block<Content: View, Before: View, After: View>: View {
             after()
         }
     }
-    
+
     public var body: some View {
         switch type {
         case .inline:
@@ -374,7 +393,7 @@ public struct Block<Content: View, Before: View, After: View>: View {
 struct CodeView: View {
     var t: CGFloat
     var scale: CGFloat
-    
+
     var ty_def: some View {
         Group {
             Keyword("struct")
@@ -391,17 +410,17 @@ struct CodeView: View {
             Space()
         }
     }
-    
+
     var body: some View {
         Code {
             Comment("A Foo", style: .doc)
                 .blur(radius: t == 3 ? 10 * scale : 0)
-            
+
             if t > 3 {
                 Line {
                     ty_def
                 }
-                
+
                 Block {
                     Line(.comma) {
                         TypeName("T")
@@ -413,7 +432,7 @@ struct CodeView: View {
                     Keyword("where")
                 }
             }
-            
+
             Block([.braces]) {
                 Line(.comma) {
                     Property("a")
@@ -424,9 +443,9 @@ struct CodeView: View {
                     RoundedRectangle(cornerRadius: 16 * scale)
                         .fill(Color.white.opacity(t == 4 ? 0.1 : 0))
                 }
-                
+
                 if t >= 1 {
-                    Line(.comma, comment: t < 2 ? "a value": "a value of type T") {
+                    Line(.comma, comment: t < 2 ? "a value" : "a value of type T") {
                         Property("b")
                         TypeName("T")
                     }
@@ -439,11 +458,11 @@ struct CodeView: View {
                         .blur(radius: t == 3 ? 10 * scale : 0)
                 }
             }
-            
+
             if t >= 3 {
                 Group {
                     Space()
-                    
+
                     Block([.braces, .brackets]) {
                         Line {
                             Variable("a")
