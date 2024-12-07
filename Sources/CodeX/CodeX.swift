@@ -282,35 +282,39 @@ public enum BlockType {
 }
 
 @available(iOS 18.0, *)
-public struct Block<Content: View, Before: View, After: View>: View {
+public struct Block<Content: View, Before: View, After: View, Top: View>: View {
     let style: [BlockStyle]?
     let type: BlockType
 
     @ViewBuilder let content: () -> Content
     @ViewBuilder let before: () -> Before
     @ViewBuilder let after: () -> After
+    @ViewBuilder let top: () -> Top
 
     public init(
         _ style: [BlockStyle]? = nil, _ type: BlockType,
         @ViewBuilder content: @escaping () -> Content
-    ) where Before == EmptyView, After == EmptyView {
+    ) where Before == EmptyView, After == EmptyView, Top == EmptyView {
         self.style = style
         self.type = type
         self.content = content
         self.before = { EmptyView() }
         self.after = { EmptyView() }
+        self.top = { EmptyView() }
     }
 
     public init(
         _ style: [BlockStyle]? = nil, @ViewBuilder content: @escaping () -> Content,
         @ViewBuilder before: @escaping () -> Before = { EmptyView() },
-        @ViewBuilder after: @escaping () -> After = { EmptyView() }
+        @ViewBuilder after: @escaping () -> After = { EmptyView() },
+        @ViewBuilder top: @escaping () -> Top = { EmptyView() }
     ) {
         self.style = style
         self.type = .multiline
         self.content = content
         self.before = before
         self.after = after
+        self.top = top
     }
 
     var start: some View {
@@ -325,6 +329,10 @@ public struct Block<Content: View, Before: View, After: View>: View {
                     case .brackets:
                         Token("[")
                     }
+                }
+
+                Horizontal {
+                    top()
                 }
             } else {
                 EmptyView()
