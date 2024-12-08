@@ -284,15 +284,15 @@ public enum LiteralStyle {
 @available(iOS 18.0, *)
 public struct Literal<Content: View>: View {
     let style: LiteralStyle
-    @ViewBuilder let content: () -> Content
+    let text: String
 
-    public init(style: LiteralStyle, @ViewBuilder content: @escaping () -> Content) {
+    public init(style: LiteralStyle, _ text: String) {
         self.style = style
-        self.content = content
+        self.text = text
     }
 
     public var body: some View {
-        content()
+        Text(text)
             .foregroundStyle(style == .number ? CodeColors.number : CodeColors.string)
     }
 }
