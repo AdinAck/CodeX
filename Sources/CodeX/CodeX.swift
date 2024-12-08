@@ -282,7 +282,7 @@ public enum LiteralStyle {
 }
 
 @available(iOS 18.0, *)
-public struct Literal<Content: View>: View {
+public struct Literal: View {
     let style: LiteralStyle
     let text: String
 
