@@ -21,6 +21,10 @@ public struct CodeColors {
         red: 0x83 / 0xff, green: 0xa5 / 0xff, blue: 0x98 / 0xff)
     public static let comment: Color = .init(
         red: 0x80 / 0xff, green: 0x80 / 0xff, blue: 0x80 / 0xff)
+    public static let number: Color = .init(
+        red: 0xd3 / 0xff, green: 0x86 / 0xff, blue: 0x9b / 0xff)
+    public static let string: Color = .init(
+        red: 0x98 / 0xff, green: 0xbb / 0xff, blue: 0x05 / 0xff)
 }
 
 @available(iOS 18.0, *)
@@ -270,6 +274,26 @@ public struct Parameter<Content: View>: View {
         Token(":")
         Space()
         content()
+    }
+}
+
+public enum LiteralStyle {
+    case number, string
+}
+
+@available(iOS 18.0, *)
+public struct Literal<Content: View>: View {
+    let style: LiteralStyle
+    @ViewBuilder let content: () -> Content
+
+    public init(style: LiteralStyle, @ViewBuilder content: @escaping () -> Content) {
+        self.style = style
+        self.content = content
+    }
+
+    public var body: some View {
+        content()
+            .foregroundStyle(style == .number ? CodeColors.number : CodeColors.string)
     }
 }
 
